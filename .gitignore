@@ -1,0 +1,12 @@
+# See https://help.github.com/ignore-files/ for more about ignoring files.
+
+# settings
+/.settings
+
+# build
+/target
+
+# misc
+.project
+.classpath
+
