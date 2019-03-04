@@ -18,7 +18,6 @@ class GridData extends Component{
         axios.get(queryUrl+"/all")
             .then(res => {
                 console.log(res.data);
-                console.log("hi1");
                 this.setState({data: res.data});
                 this.getBarData();
             })
@@ -58,7 +57,6 @@ class GridData extends Component{
         }
         else{
             this.setState({alertText:"Enter search criteria and text"});
-            //window.alert("Specify all data");
         }
     }
 
@@ -71,7 +69,7 @@ class GridData extends Component{
         const {data} = this.state;
         const barData = [];
         if(data !== undefined){
-            let r = data.reduce((map, dOld) => {
+            let redData = data.reduce((map, dOld) => {
                 if(map[dOld.documentType]){
                     map[dOld.documentType] += 1;
                 } else {
@@ -80,7 +78,7 @@ class GridData extends Component{
                 return map;
             }, {});
 
-            Object.entries(r).map(i => {
+            Object.entries(redData).map(i => {
                 let obj = Object.create(null);
                 obj["key"] = i[0];
                 obj["value"] = i[1];
@@ -117,7 +115,6 @@ class GridData extends Component{
                     <button className="button" onClick={this.handleReset.bind(this)}> Reset </button>
                 </div>
                 <div style={{height: '250px'}}>
-                    {/*// <VictoryChart>*/}
                     <VictoryPie colorScale={["#008080", "#66b2b2"]} data={this.state.barData} x="key" y="value"
                                 events={[
                                     {
@@ -131,7 +128,6 @@ class GridData extends Component{
                                     }
                                 ]}
                     />
-                    {/*</VictoryChart>*/}
                 </div>
                 <ReactTable
                     data={this.state.data}

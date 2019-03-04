@@ -5,55 +5,38 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class Patent {
-	 @SerializedName("applicationType")
 	    @Expose
 	    private String applicationType;
-	    @SerializedName("documentId")
 	    @Expose
 	    private String documentId;
-	    @SerializedName("applicationNumber")
 	    @Expose
 	    private String applicationNumber;
-	    @SerializedName("documentType")
 	    @Expose
 	    private String documentType;
-	    @SerializedName("publicationDate")
 	    @Expose
 	    private String publicationDate;
-	    @SerializedName("documentDate")
 	    @Expose
 	    private String documentDate;
-	    @SerializedName("productionDate")
 	    @Expose
 	    private String productionDate;
-	    @SerializedName("applicationDate")
 	    @Expose
 	    private String applicationDate;
-	    @SerializedName("applicant")
 	    @Expose
 	    private List<String> applicant = null;
-	    @SerializedName("inventor")
 	    @Expose
 	    private List<String> inventor = null;
-	    @SerializedName("title")
 	    @Expose
 	    private String title;
-	    @SerializedName("archiveUrl")
 	    @Expose
 	    private String archiveUrl;
-	    @SerializedName("pdfPath")
 	    @Expose
 	    private String pdfPath;
-	    @SerializedName("year")
 	    @Expose
 	    private String year;
-	    @SerializedName("version")
 	    @Expose
 	    private Long version;
-	    @SerializedName("assignee")
 	    @Expose
 	    private List<String> assignee = null;
-	    @SerializedName("patentNumber")
 	    @Expose
 	    private String patentNumber;
 
