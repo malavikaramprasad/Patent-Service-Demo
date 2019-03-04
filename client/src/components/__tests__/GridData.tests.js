@@ -14,28 +14,18 @@ beforeEach(() => {
         response: [{documentId: 'US20010040421A1'},{documentId: 'US20010050970A1'}]
     });
 
-    beforeEach(()=>{
-        wrapped = shallow(<GridData/>);
-    });
+
+    wrapped = shallow(<GridData/>);
+
 });
 
 afterEach( () =>{
     moxios.uninstall();
 });
 
-// it('can fecth data and display', (done) => {
-//     const wrapped = mount(<App> <GridData/> </App>);
-//     // click fetch comments
-//     //wrapped.find('.fetch-comments').simulate('click');
-//     // expect and find a list of comments
-//     // add tiny pause
-//     // moxios.wait( () => {
-//     //     wrapped.update();
-//     //     expect(wrapped.find('li').length).toEqual(2);
-//     //     done();
-//     //     wrapped.unmount();
-//     // })
-// });
+it('contains an input field', () => {
+   expect(wrapped.find('input').length).toEqual(1);
+});
 
 it('has a text area to type the search text ', () =>{
    wrapped.find('input').simulate('change',{
@@ -46,4 +36,19 @@ it('has a text area to type the search text ', () =>{
 
    expect(wrapped.find('input').prop('value')).toEqual('123');
 
+});
+
+it('Can fetch a list of data and display them', (done) => {
+    // render the app
+    const wrapped = mount( <App/> );
+    // click fetch comments
+    wrapped.find('.button').simulate('click');
+    // expect and find a list of comments
+    // add tiny pause
+    moxios.wait( () => {
+        wrapped.update();
+        expect(wrapped.find('ReactTable').length).toEqual(1);
+        done();
+        wrapped.unmount();
+    })
 });

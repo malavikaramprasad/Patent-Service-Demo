@@ -6,6 +6,7 @@
     "axios": "^0.18.0",
     "chart.js": "^2.7.3",
     "enzyme": "^3.9.0",
+    "enzyme-adapter-react-16": "^1.10.0",
     "moxios": "^0.4.0",
     "namor": "^1.1.1",
     "react": "^16.8.3",
