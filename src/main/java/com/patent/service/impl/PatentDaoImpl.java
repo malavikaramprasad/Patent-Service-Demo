@@ -24,10 +24,25 @@ public class PatentDaoImpl implements PatentDao {
 
 	public Response getPatent(String req, String val) {
 		String sqlQuery = "";
+//		String  sqlQuery1 = "";
 		//Search across all data
 		if (req.equals("searchText")) {
-			sqlQuery = "Select distinct version, application_date, application_number, application_type, archiveurl, document_id, document_date, document_type, patent_number , pdfpath, production_date, publication_date, title, year, inventor, applicant, assignee"
-					+ " from patentdata, unnest(assignee) ass, unnest(applicant) appl, unnest(inventor) inv "
+//			sqlQuery1 = "Select distinct version, application_date, application_number, application_type, archiveurl, document_id, document_date, document_type, patent_number , pdfpath, production_date, publication_date, title, year, inventor, applicant, assignee"
+//					+ " from patentdata, unnest(assignee) ass, unnest(applicant) appl, unnest(inventor) inv "
+//					+ " where document_id ILIKE '%" + val + "%'" + " or application_number ILIKE '%" + val + "%'"
+//					+ " or version::text ILIKE '%" + val + "%'" + " or application_date ILIKE '%" + val + "%'"
+//					+ " or application_type ILIKE '%" + val + "%'" + " or archiveurl ILIKE '%" + val + "%'"
+//					+ " or patent_number ILIKE '%" + val + "%'" + " or document_date ILIKE '%" + val + "%'"
+//					+ " or document_type ILIKE '%" + val + "%'" + " or pdfpath ILIKE '%" + val + "%'"
+//					+ " or production_date ILIKE '%" + val + "%'" + " or publication_date ILIKE '%" + val + "%'"
+//					+ " or title ILIKE '%" + val + "%'" + " or year ILIKE '%" + val + "%'" + " or  ass ILIKE '%" + val
+//					+ "%'" + " or inv ILIKE '%" + val + "%'" + " or appl ILIKE '%" + val + "%'";
+			
+			sqlQuery = "Select distinct version, application_date, application_number, application_type, archiveurl, document_id, document_date, document_type, patent_number , pdfpath, production_date, publication_date, title, year, inventor, applicant, assignee, ass, inv, appl"
+					+ " from patentdata "
+					+ " left join lateral unnest(inventor) inv on true"
+					+ " left join lateral unnest(applicant) appl on true"
+					+ " left join lateral unnest(assignee) ass on true"
 					+ " where document_id ILIKE '%" + val + "%'" + " or application_number ILIKE '%" + val + "%'"
 					+ " or version::text ILIKE '%" + val + "%'" + " or application_date ILIKE '%" + val + "%'"
 					+ " or application_type ILIKE '%" + val + "%'" + " or archiveurl ILIKE '%" + val + "%'"
@@ -63,6 +78,14 @@ public class PatentDaoImpl implements PatentDao {
 				return Response.ok().entity(patentArray).build();
 			} catch (Exception e) {
 				System.out.println("Failed at" + e.getMessage());
+			}
+			finally {
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		}
 		return null;
