@@ -5,6 +5,8 @@ import "react-table/react-table.css";
 import { VictoryPie } from 'victory';
 import axios from 'axios';
 import './GridData.css';
+import reactmoment from 'react-moment';
+import moment from 'moment';
 
 const queryUrl = "http://localhost:8080/patentservice/api/v1/patent";
 
@@ -14,10 +16,15 @@ class GridData extends Component{
         this.state = {data:undefined, filter:"", textValue:"", alertText:"", barData:undefined};
     }
 
-    componentDidMount(){
+    async componentDidMount(){
+
+        //res = Promise
+        //tiher tastes
+        //if(res
         axios.get(queryUrl+"/all")
             .then(res => {
                 console.log(res.data);
+                this.formatDate(res.data);
                 this.setState({data: res.data});
                 this.getBarData();
             })
@@ -26,8 +33,21 @@ class GridData extends Component{
             })
     }
 
+    formatDate(data){
+        data.forEach( (d) => {
+            console.log(d.documentDate);
+            let newDate = moment(d.documentDate).format("MM-DD-YYYY");
+            d.documentDate = newDate;
+        });
+    }
+
     filterBasedOnPieSelection(value){
-        axios.get(queryUrl+"?document_type="+value)
+        let url = "";
+        if(this.state.filter && this.state.textValue)
+            url = queryUrl+"/pieData?document_type="+value+"&searchType="+this.state.filter+"&searchValue="+this.state.textValue;
+        else
+            url = queryUrl+"?document_type="+value;
+        axios.get(url)
             .then(res => {
                 console.log(res.data);
                 this.setState({data: res.data});
@@ -89,6 +109,7 @@ class GridData extends Component{
     }
 
     render() {
+        console.log(moment().format('2018-06-26T00:00:00Z'));
         // const {data} = this.state;
         return (
             <div>
@@ -111,7 +132,7 @@ class GridData extends Component{
                     {/*<div className="dispInline"> */}
                         <input value={this.state.textValue} placeholder="Search Text" className="input" type="text" onChange={(event) => { this.setState({textValue: event.target.value})}}/>
                     {/*</div>*/}
-                    <button className="button" onClick={this.handleGoClick.bind(this)}> Go </button>
+                    <button className="button" onClick={this.handleGoClick.bind(this)}> Fetch </button>
                     <button className="button" onClick={this.handleReset.bind(this)}> Reset </button>
                 </div>
                 <div style={{height: '250px'}}>

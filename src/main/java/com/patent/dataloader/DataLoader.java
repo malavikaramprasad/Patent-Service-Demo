@@ -22,7 +22,6 @@ public class DataLoader {
 		
 		try {
 			List<Patent> patentList = patentData.getData(searchText);
-			System.out.println(patentList.toString());
 			if(patentList.size() > 0) {
 				deleteData(connection);
 				insertData(patentList, connection);

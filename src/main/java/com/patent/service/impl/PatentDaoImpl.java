@@ -21,6 +21,19 @@ public class PatentDaoImpl implements PatentDao {
 		String sqlQuery = "Select * from patentdata";
 		return patentDetails(sqlQuery);
 	}
+	
+	public Response getDataForPie(String searchType, String searchVal, String docType) {
+		String sqlQuery = "";
+		if (searchType.equals("assignee") || searchType.equals("inventor") || searchType.equals("applicant"))
+			sqlQuery = "Select * from patentdata, unnest (" + searchType + ") ap WHERE  ap ILIKE '%" + searchVal + "%' "
+					+ " and document_type ILIKE '" + docType +"'";
+		else 
+		sqlQuery = "Select * from patentdata where document_type ILIKE '" + docType 
+				+ "' and "+ searchType + " ILIKE '%" + searchVal + "%'";
+		System.out.println(sqlQuery);
+		return patentDetails(sqlQuery);
+	
+	}
 
 	public Response getPatent(String req, String val) {
 		String sqlQuery = "";

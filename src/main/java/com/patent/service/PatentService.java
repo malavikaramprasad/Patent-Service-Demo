@@ -79,5 +79,15 @@ public class PatentService {
 		dataLoader.loadData(searchText);
 		return Response.ok().build();
 	}
+	
+	@GET
+	@Path("patent/pieData")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getDataForPie(
+			@QueryParam("searchType") String searchText,
+			@QueryParam("searchValue") String searchVal,
+			@QueryParam("document_type") String docType) {
+		return patentDao.getDataForPie(searchText, searchVal, docType);
+	}
 
 }
